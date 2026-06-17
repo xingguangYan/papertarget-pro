@@ -288,6 +288,129 @@ Support all input modes:
    graduation value, funding value, career value
 10. **Final goal: Find most worth submitting journals, not highest IF journals**
 
+
+## V4 Enhancements
+
+### Journal Database Auto-Update (references/)
+
+Load `references/journal_knowledge_base.md` for comprehensive journal data including:
+- Journal tier reference by discipline (Remote Sensing, CS/AI, Ecology, Medical, Earth Science)
+- APC cost reference ($500-$6,290)
+- Typical review cycle reference (2-12 months)
+- CAS early warning indicators and risk assessment
+- Publisher risk evaluation matrix
+
+Use this data to augment journal recommendations with real APC costs, actual review times,
+and risk scores. Cross-reference with the model's training data for timeliness.
+
+### Review Experience Mining (scripts/)
+
+Use `scripts/search_review_data.py` together with web search to mine real submission
+experience from:
+- **LetPub/MedSci** - Chinese platform with journal review time statistics
+- **Xiaomuchong** - Chinese academic forum with real experience sharing
+- **ResearchGate** - Global journal ratings and discussions
+- **SciRev** - International review speed and experience platform
+
+Steps:
+1. Run `python search_review_data.py --journal "Journal Name" --field discipline`
+2. Use the generated search queries with web search tool
+3. Collect and integrate real review times, acceptance rates, and editor profiles
+
+### Full-Text Paper Analysis (scripts/)
+
+Use `scripts/analyze_paper.py` to automatically extract and analyze paper content:
+
+```bash
+python scripts/analyze_paper.py paper.pdf      # Extract from PDF
+python scripts/analyze_paper.py manuscript.docx  # Extract from DOCX
+python scripts/analyze_paper.py paper.tex        # Extract from LaTeX
+```
+
+Output includes:
+- Section extraction (Abstract, Introduction, Methods, Results, etc.)
+- Word count and structure analysis
+- Extracted title and key content for Paper DNA construction
+
+This enables automated paper quality diagnosis without manual text entry.
+
+### Discipline-Specific Editions (references/)
+
+Load `references/discipline_editions.md` for domain-optimized evaluation when
+analyzing papers from these fields:
+
+| Edition | Key Specialization |
+|---------|-------------------|
+| **Remote Sensing** | Resolution analysis, SAR/Optical fusion, Foundation models |
+| **Ecology** | Experimental design, SEM, Species distribution modeling |
+| **Medical** | Clinical trials, Ethics, Translational potential |
+| **Computer Science & AI** | CCF tiers, Benchmarks, Ablation studies, Hot topics |
+
+Apply the domain-specific journal fit guidelines, preferred methods, and
+evaluation dimensions when the paper falls into one of these disciplines.
+
+### SCI Hit Rate Prediction Model
+
+Built directly into the success prediction engine:
+
+**Calculate scores using these weighted dimensions:**
+- **Innovation Score** (0-100) x weight 0.20
+- **Method Rigor Score** (0-100) x weight 0.20
+- **Data Quality Score** (0-100) x weight 0.15
+- **Writing Quality Score** (0-100) x weight 0.10
+- **Topic Fit Score** (0-100) x weight 0.15
+- **Journal Match Score** (0-100) x weight 0.20
+
+**Prediction breakdown:**
+- Q1 Hit Rate: overall_score x 0.7 (desk reject adjustment)
+- Top Journal Hit Rate: overall_score x 0.5 (Nature/Science tier adjustment)
+- Desk Reject Probability: inverse relationship with Topic+Method fit
+- Major Revision Probability: based on Method Rigor + Writing quality gaps
+
+**Output format:**
+```
+=== SCI Hit Rate Prediction ===
+Overall Score: 72/100
+Q1 Acceptance Probability: 45%
+Top Journal Acceptance: 28%
+Desk Reject Risk: 15%
+Major Revision Likelihood: 35%
+Key Risk Factors: [list specific weaknesses]
+Recommended Action: [specific improvement suggestions]
+```
+
+## Updated Usage Guide
+
+### Basic Workflow
+1. Receive paper input (title/abstract/full-text via any input mode)
+2. [Optional] Run `analyze_paper.py` for automated section extraction
+3. Construct Paper DNA using Paper DNA Engine
+4. Run Novelty Engine + Scientific Value Engine
+5. Run Publication Level Predictor
+6. Load `references/journal_knowledge_base.md` for journal data
+7. Load `references/discipline_editions.md` if domain-specific evaluation needed
+8. Run Journal Matching Engine (10-layer matching)
+9. Generate TOP 20 recommendations
+10. Run Editor Decision Simulator + Reviewer Brain Engine
+11. Run Success Rate Engine + SCI Hit Rate Prediction
+12. Run Academic Risk Control + Trend Forecast
+13. Run Funding Match Engine + Academic Career Engine
+14. Generate Cover Letter (if requested)
+15. Compile Final Report
+
+### Advanced Workflow (Review Experience Mining)
+1. Identify target journals from step 9
+2. Run `search_review_data.py --journal "Journal Name"`
+3. Use web search with generated queries to find real review experiences
+4. Update success rate predictions with real-world data
+5. Refine recommendations based on editor profiles and recent trends
+
+### Rejection Rescue Workflow
+1. Parse rejection letter input
+2. Identify rejection causes via Rejection Rescue Engine
+3. Re-run Journal Matching Engine with rejection context
+4. Generate transfer letter + updated submission strategy
+
 ## Usage Guide
 
 To use this skill, provide the paper details (title, abstract, keywords,
