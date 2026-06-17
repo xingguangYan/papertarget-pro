@@ -1,0 +1,4 @@
+interface:
+  display_name: "PaperTarget Pro V3 Ultimate"
+  short_description: "AI publishing intelligence: diagnosis, journal match, prediction"
+  default_prompt: "Use $papertarget-pro to analyze my paper and recommend the best journals"
